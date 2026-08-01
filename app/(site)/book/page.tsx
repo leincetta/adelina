@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BookingForm } from "@/components/BookingForm";
 import { Reveal } from "@/components/Reveal";
 import { siteConfig } from "@/lib/site-config";
+import { getAllFlavors } from "@/lib/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Book an event",
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
     "Book Adelina for your next dinner, party, or private event. Tell us the date, the crowd, and the flavors — we'll take it from there.",
 };
 
-export default function BookPage() {
+export default async function BookPage() {
+  const flavors = await getAllFlavors();
+
   return (
     <div className="pt-32 pb-28 px-5 sm:px-8">
       <div className="mx-auto max-w-3xl">
@@ -35,7 +38,7 @@ export default function BookPage() {
         </Reveal>
 
         <Reveal delay={150} className="mt-16">
-          <BookingForm />
+          <BookingForm flavors={flavors} />
         </Reveal>
       </div>
     </div>

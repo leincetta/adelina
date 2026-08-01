@@ -2,12 +2,6 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { bookingSchema } from "@/lib/booking-schema";
 
-const FORMAT_LABELS: Record<string, string> = {
-  gelato: "Gelato",
-  sorbet: "Sorbet",
-  both: "Gelato & sorbet",
-};
-
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   if (!body) {
@@ -46,8 +40,8 @@ export async function POST(request: Request) {
     `Phone: ${data.phone || "—"}`,
     `Event date: ${data.eventDate}`,
     `Headcount: ${data.headcount}`,
-    `Flavors desired: ${data.flavorCount}`,
-    `Format: ${FORMAT_LABELS[data.format] ?? data.format}`,
+    `Selected flavors: ${data.selectedFlavors.length ? data.selectedFlavors.join(", ") : "—"}`,
+    `Custom flavor request: ${data.customFlavorRequest || "—"}`,
     `Dietary restrictions: ${data.dietaryRestrictions || "—"}`,
     "",
     "Additional notes:",

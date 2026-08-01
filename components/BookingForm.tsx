@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import {
-  bookingFormatOptions,
-  bookingSchema,
-  type BookingFieldErrors,
-} from "@/lib/booking-schema";
+import { bookingSchema, type BookingFieldErrors } from "@/lib/booking-schema";
+import { MediaFrame } from "@/components/MediaFrame";
+import { toneForFlavor } from "@/lib/flavor-tone";
+import type { Flavor } from "@/lib/types";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -13,10 +12,21 @@ const inputClasses =
   "w-full bg-transparent border-b border-bone/25 py-3 text-bone placeholder:text-bone-dim/50 focus:outline-none focus:border-bone transition-colors [color-scheme:dark]";
 const labelClasses = "text-xs uppercase tracking-[0.2em] text-bone-dim";
 
-export function BookingForm() {
+interface BookingFormProps {
+  flavors: Flavor[];
+}
+
+export function BookingForm({ flavors }: BookingFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<BookingFieldErrors>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
+
+  function toggleFlavor(name: string) {
+    setSelectedFlavors((prev) =>
+      prev.includes(name) ? prev.filter((f) => f !== name) : [...prev, name]
+    );
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,7 +34,10 @@ export function BookingForm() {
     setErrorMessage(null);
 
     const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
+    const payload = {
+      ...Object.fromEntries(formData.entries()),
+      selectedFlavors,
+    };
 
     const parsed = bookingSchema.safeParse(payload);
     if (!parsed.success) {
@@ -98,40 +111,93 @@ export function BookingForm() {
             className={inputClasses}
           />
         </Field>
-        <Field label="Number of flavors desired" error={errors.flavorCount?.[0]}>
-          <input
-            name="flavorCount"
-            type="number"
-            min={1}
-            required
-            className={inputClasses}
-          />
-        </Field>
       </div>
 
       <fieldset>
-        <legend className={labelClasses}>Gelato, sorbet, or both</legend>
-        <div className="mt-4 flex flex-wrap gap-6">
-          {bookingFormatOptions.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center gap-2.5 text-sm cursor-pointer"
-            >
-              <input
-                type="radio"
-                name="format"
-                value={option.value}
-                required
-                className="accent-cherry h-4 w-4"
-              />
-              {option.label}
-            </label>
-          ))}
+        <legend className={labelClasses}>
+          Pick your flavors {selectedFlavors.length > 0 && `(${selectedFlavors.length} selected)`}
+        </legend>
+        <p className="mt-2 text-sm text-bone-dim">
+          Tap any that catch your eye — no strong preference is fine too.
+        </p>
+
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {flavors.map((flavor) => {
+            const selected = selectedFlavors.includes(flavor.name);
+            return (
+              <button
+                key={flavor._id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => toggleFlavor(flavor.name)}
+                className={`group text-left focus:outline-none ${
+                  selected ? "" : "opacity-90 hover:opacity-100"
+                }`}
+              >
+                <div
+                  className={`relative rounded-sm ring-1 transition-all ${
+                    selected
+                      ? "ring-2 ring-cherry"
+                      : "ring-bone/15 group-hover:ring-bone/40"
+                  }`}
+                >
+                  <MediaFrame
+                    src={flavor.heroImageUrl}
+                    alt={flavor.name}
+                    tone={toneForFlavor(flavor.slug)}
+                    className="aspect-square"
+                    sizes="(min-width: 640px) 20vw, 33vw"
+                  />
+                  <div
+                    className={`absolute top-2 right-2 h-6 w-6 rounded-full border flex items-center justify-center transition-colors ${
+                      selected
+                        ? "bg-cherry border-cherry"
+                        : "bg-ink/60 border-bone/40"
+                    }`}
+                  >
+                    {selected && (
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        className="h-3.5 w-3.5"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M3 8.5L6.2 11.5L13 4.5"
+                          stroke="currentColor"
+                          strokeWidth="1.75"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="text-bone"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <p className="mt-2 text-xs uppercase tracking-[0.1em] text-bone">
+                  {flavor.name}
+                </p>
+              </button>
+            );
+          })}
         </div>
-        {errors.format?.[0] && (
-          <p className="mt-2 text-xs text-cherry">{errors.format[0]}</p>
+
+        {errors.selectedFlavors?.[0] && (
+          <p className="mt-2 text-xs text-cherry">{errors.selectedFlavors[0]}</p>
         )}
       </fieldset>
+
+      <Field
+        label="Something custom in mind?"
+        error={errors.customFlavorRequest?.[0]}
+      >
+        <textarea
+          name="customFlavorRequest"
+          rows={2}
+          placeholder="Have a flavor idea of your own? Tell us about it."
+          className={inputClasses}
+        />
+      </Field>
 
       <Field
         label="Dietary restrictions"
