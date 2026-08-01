@@ -21,8 +21,17 @@ export const siteSettings = defineType({
     defineField({
       name: "heroImage",
       title: "Homepage hero image",
+      description: "Used as a static fallback, and as the video's poster frame while it loads.",
       type: "image",
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "heroVideo",
+      title: "Homepage hero video (optional)",
+      description:
+        "A short, silent, looping video for the homepage hero. Keep it brief (5-15s) and compressed — it plays muted and on loop. Takes priority over the hero image when set.",
+      type: "file",
+      options: { accept: "video/mp4,video/webm" },
     }),
     defineField({
       name: "ctaHeading",

@@ -75,7 +75,7 @@ export default async function StoryPage() {
             href="/book"
             className="mt-8 inline-block text-xs uppercase tracking-[0.25em] bg-bone text-ink px-8 py-4 hover:bg-cherry hover:text-bone transition-colors"
           >
-            Book an event
+            Book an Event
           </Link>
         </Reveal>
       </section>

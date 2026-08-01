@@ -1,12 +1,12 @@
 export const siteConfig = {
   name: "Adelina",
   tagline: "Small-batch gelato, Brooklyn",
-  domain: "adelinagelato.com",
+  domain: "adelina.nyc",
   description:
     "Adelina is small-batch gelato by chef Leandro Incetta, made in Brooklyn. Book it for your next dinner, party, or private event.",
   chef: "Leandro Incetta",
   city: "Brooklyn, NY",
-  email: "hello@adelinagelato.com",
-  instagram: "https://instagram.com/adelinagelato",
-  instagramHandle: "@adelinagelato",
+  email: "hello@adelinanyc.com",
+  instagram: "https://www.instagram.com/adelina.nyc",
+  instagramHandle: "@adelina.nyc",
 } as const;

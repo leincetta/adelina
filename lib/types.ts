@@ -18,6 +18,7 @@ export interface StorySettings {
   homepageTagline: string;
   homepageSubline?: string;
   heroImageUrl?: string;
+  heroVideoUrl?: string;
   ctaHeading: string;
   storyHeading: string;
   storyIntro?: string;

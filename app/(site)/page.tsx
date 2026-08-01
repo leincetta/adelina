@@ -16,6 +16,7 @@ export default async function HomePage() {
       <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
         <MediaFrame
           src={story.heroImageUrl}
+          videoSrc={story.heroVideoUrl}
           alt="Adelina gelato, Brooklyn"
           tone="cherry"
           label="Hero — night-flash photo of gelato being spooned and shared"
@@ -48,7 +49,7 @@ export default async function HomePage() {
               href="/book"
               className="text-xs uppercase tracking-[0.25em] bg-bone text-ink px-7 py-4 hover:bg-cherry hover:text-bone transition-colors"
             >
-              Book an event
+              Book an Event
             </Link>
             <Link
               href="/flavors"
@@ -57,11 +58,6 @@ export default async function HomePage() {
               See the flavors
             </Link>
           </div>
-        </div>
-
-        <div className="hidden sm:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-bone-dim/70">
-          <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-          <span className="h-10 w-px bg-bone-dim/40" />
         </div>
       </section>
 
@@ -145,7 +141,7 @@ export default async function HomePage() {
             href="/book"
             className="mt-10 inline-block text-xs uppercase tracking-[0.25em] bg-bone text-ink px-8 py-4 hover:bg-cherry hover:text-bone transition-colors"
           >
-            Start your inquiry
+            Book an Event
           </Link>
         </Reveal>
       </section>

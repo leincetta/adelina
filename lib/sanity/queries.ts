@@ -22,6 +22,7 @@ interface RawStorySettings {
   homepageTagline: string;
   homepageSubline?: string;
   heroImage?: Image;
+  heroVideoUrl?: string;
   ctaHeading?: string;
   storyHeading: string;
   storyIntro?: string;
@@ -110,6 +111,7 @@ export async function getSiteSettings(): Promise<StorySettings> {
         homepageTagline,
         homepageSubline,
         heroImage,
+        "heroVideoUrl": heroVideo.asset->url,
         ctaHeading,
         storyHeading,
         storyIntro,
@@ -124,6 +126,7 @@ export async function getSiteSettings(): Promise<StorySettings> {
       homepageTagline: raw.homepageTagline || placeholderStory.homepageTagline,
       homepageSubline: raw.homepageSubline,
       heroImageUrl: urlForImage(raw.heroImage)?.width(2200).url(),
+      heroVideoUrl: raw.heroVideoUrl,
       ctaHeading: raw.ctaHeading || placeholderStory.ctaHeading,
       storyHeading: raw.storyHeading || placeholderStory.storyHeading,
       storyIntro: raw.storyIntro,
