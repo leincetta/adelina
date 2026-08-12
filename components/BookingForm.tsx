@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { bookingSchema, type BookingFieldErrors } from "@/lib/booking-schema";
 import { MediaFrame } from "@/components/MediaFrame";
+import { SignupForm } from "@/components/SignupForm";
 import { toneForFlavor } from "@/lib/flavor-tone";
 import type { Flavor } from "@/lib/types";
 
@@ -83,6 +84,13 @@ export function BookingForm({ flavors }: BookingFormProps) {
           Thanks for reaching out. We read every inquiry and usually reply
           within a couple of days to talk flavors, timing, and logistics.
         </p>
+
+        <div className="mt-10 pt-10 border-t border-bone/10 max-w-sm mx-auto">
+          <p className="text-sm text-bone-dim">
+            Want first dibs on the next flavor drop?
+          </p>
+          <SignupForm className="mt-4" />
+        </div>
       </div>
     );
   }

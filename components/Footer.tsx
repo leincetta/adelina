@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { Logo } from "./Logo";
+import { SignupForm } from "./SignupForm";
 
 export function Footer() {
   return (
@@ -26,6 +27,7 @@ export function Footer() {
           >
             {siteConfig.instagramHandle}
           </a>
+          <SignupForm variant="link" />
         </div>
 
         <nav className="flex gap-6 text-xs uppercase tracking-[0.2em] text-bone-dim">
