@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { RESEND_API_KEY, RESEND_AUDIENCE_ID } = process.env;
+  const { RESEND_API_KEY, RESEND_AUDIENCE_ID, PINT_CLUB_FROM_EMAIL } = process.env;
 
   if (!RESEND_API_KEY || !RESEND_AUDIENCE_ID) {
     console.error(
@@ -54,6 +54,27 @@ export async function POST(request: Request) {
       { error: "We couldn't sign you up. Please try again." },
       { status: 502 }
     );
+  }
+
+  // The signup itself succeeded above — a failed welcome email shouldn't
+  // make it look like signing up failed, so this is best-effort only.
+  try {
+    await resend.emails.send({
+      from: PINT_CLUB_FROM_EMAIL || "Adelina Pint Club <onboarding@resend.dev>",
+      to: parsed.data.email,
+      subject: "You're in — welcome to the Pint Club",
+      text: [
+        "You're on the list.",
+        "",
+        "Flavor drops, pop-up locations, and pint restocks — every two weeks, straight to this inbox. Nothing else.",
+        "",
+        "See you at the next one.",
+        "",
+        "— Adelina",
+      ].join("\n"),
+    });
+  } catch (err) {
+    console.error("Pint Club welcome email failed to send:", err);
   }
 
   return NextResponse.json({ ok: true });
