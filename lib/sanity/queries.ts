@@ -29,6 +29,8 @@ interface RawStorySettings {
   storyBody?: { _type: string; children?: { text?: string }[] }[];
   storyImage?: Image;
   chefName?: string;
+  welcomeEmailSubject?: string;
+  welcomeEmailBody?: string;
 }
 
 const FLAVOR_FIELDS = `
@@ -117,7 +119,9 @@ export async function getSiteSettings(): Promise<StorySettings> {
         storyIntro,
         storyBody,
         storyImage,
-        chefName
+        chefName,
+        welcomeEmailSubject,
+        welcomeEmailBody
       }`
     );
     if (!raw) return placeholderStory;
@@ -133,6 +137,8 @@ export async function getSiteSettings(): Promise<StorySettings> {
       storyBody: storyBody.length ? storyBody : placeholderStory.storyBody,
       storyImageUrl: urlForImage(raw.storyImage)?.width(1600).url(),
       chefName: raw.chefName || placeholderStory.chefName,
+      welcomeEmailSubject: raw.welcomeEmailSubject || placeholderStory.welcomeEmailSubject,
+      welcomeEmailBody: raw.welcomeEmailBody || placeholderStory.welcomeEmailBody,
     };
   } catch (error) {
     console.error("Sanity: failed to fetch site settings, using placeholder content.", error);

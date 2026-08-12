@@ -25,5 +25,7 @@ export interface StorySettings {
   storyBody: string[];
   storyImageUrl?: string;
   chefName: string;
+  welcomeEmailSubject: string;
+  welcomeEmailBody: string;
   isPlaceholder?: boolean;
 }

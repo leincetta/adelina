@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { subscribeSchema } from "@/lib/subscribe-schema";
+import { getSiteSettings } from "@/lib/sanity/queries";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -59,19 +60,12 @@ export async function POST(request: Request) {
   // The signup itself succeeded above — a failed welcome email shouldn't
   // make it look like signing up failed, so this is best-effort only.
   try {
+    const { welcomeEmailSubject, welcomeEmailBody } = await getSiteSettings();
     await resend.emails.send({
       from: PINT_CLUB_FROM_EMAIL || "Adelina Pint Club <onboarding@resend.dev>",
       to: parsed.data.email,
-      subject: "You're in — welcome to the Pint Club",
-      text: [
-        "You're on the list.",
-        "",
-        "Flavor drops, pop-up locations, and pint restocks — every two weeks, straight to this inbox. Nothing else.",
-        "",
-        "See you at the next one.",
-        "",
-        "— Adelina",
-      ].join("\n"),
+      subject: welcomeEmailSubject,
+      text: welcomeEmailBody,
     });
   } catch (err) {
     console.error("Pint Club welcome email failed to send:", err);

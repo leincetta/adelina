@@ -4,12 +4,18 @@ export const siteSettings = defineType({
   name: "siteSettings",
   title: "Site Settings & Story",
   type: "document",
+  groups: [
+    { name: "homepage", title: "Homepage" },
+    { name: "story", title: "Story" },
+    { name: "pintClub", title: "Pint Club Email" },
+  ],
   fields: [
     defineField({
       name: "homepageTagline",
       title: "Homepage tagline",
       description: "The short, punchy line in the hero. Keep it to one breath.",
       type: "string",
+      group: "homepage",
       validation: (rule) => rule.required().max(120),
     }),
     defineField({
@@ -17,6 +23,7 @@ export const siteSettings = defineType({
       title: "Homepage subline",
       description: "A second, quieter line under the tagline. Optional.",
       type: "string",
+      group: "homepage",
     }),
     defineField({
       name: "heroImage",
@@ -24,6 +31,7 @@ export const siteSettings = defineType({
       description: "Used as a static fallback, and as the video's poster frame while it loads.",
       type: "image",
       options: { hotspot: true },
+      group: "homepage",
     }),
     defineField({
       name: "heroVideo",
@@ -32,6 +40,7 @@ export const siteSettings = defineType({
         "A short, silent, looping video for the homepage hero. Keep it brief (5-15s) and compressed — it plays muted and on loop. Takes priority over the hero image when set.",
       type: "file",
       options: { accept: "video/mp4,video/webm" },
+      group: "homepage",
     }),
     defineField({
       name: "ctaHeading",
@@ -39,11 +48,13 @@ export const siteSettings = defineType({
       description: "The line above the \"Book an event\" button at the end of the homepage.",
       type: "string",
       initialValue: "Bring Adelina to your table.",
+      group: "homepage",
     }),
     defineField({
       name: "storyHeading",
       title: "Story page heading",
       type: "string",
+      group: "story",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -52,6 +63,7 @@ export const siteSettings = defineType({
       description: "Large opening line at the top of the Story page.",
       type: "text",
       rows: 3,
+      group: "story",
     }),
     defineField({
       name: "storyBody",
@@ -59,6 +71,7 @@ export const siteSettings = defineType({
       description: "The full story — bio, philosophy, motivation. Editorial tone.",
       type: "array",
       of: [{ type: "block" }],
+      group: "story",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -66,12 +79,34 @@ export const siteSettings = defineType({
       title: "Story page portrait / image",
       type: "image",
       options: { hotspot: true },
+      group: "story",
     }),
     defineField({
       name: "chefName",
       title: "Chef name",
       type: "string",
       initialValue: "Leandro Incetta",
+      group: "story",
+    }),
+    defineField({
+      name: "welcomeEmailSubject",
+      title: "Welcome email — subject",
+      description: "Sent automatically when someone joins the Pint Club at /join, the footer, or after booking.",
+      type: "string",
+      group: "pintClub",
+      initialValue: "You're in — welcome to the Pint Club",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "welcomeEmailBody",
+      title: "Welcome email — body",
+      description: "Plain text, no HTML. Blank lines become paragraph breaks.",
+      type: "text",
+      rows: 8,
+      group: "pintClub",
+      initialValue:
+        "You're on the list.\n\nFlavor drops, pop-up locations, and pint restocks — every two weeks, straight to this inbox. Nothing else.\n\nSee you at the next one.\n\n— Adelina",
+      validation: (rule) => rule.required(),
     }),
   ],
   preview: {

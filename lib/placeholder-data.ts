@@ -108,5 +108,8 @@ export const placeholderStory: StorySettings = {
     "Every flavor here has a story behind it, usually one that starts with someone's childhood and ends with a version of it that only makes sense as gelato. That's the whole idea.",
   ],
   chefName: "Leandro Incetta",
+  welcomeEmailSubject: "You're in — welcome to the Pint Club",
+  welcomeEmailBody:
+    "You're on the list.\n\nFlavor drops, pop-up locations, and pint restocks — every two weeks, straight to this inbox. Nothing else.\n\nSee you at the next one.\n\n— Adelina",
   isPlaceholder: true,
 };
